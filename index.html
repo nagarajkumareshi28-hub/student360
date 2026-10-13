@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
+<title>Student360 — Your Personal Student Problem Solver</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="toast" class="toast"></div>
+<div id="loader" class="loader"><div class="loader-ring"></div><b>Student360</b><span>Preparing your student dashboard…</span></div>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">S</div><div><strong>STUDENT360</strong><small>Your problem solver</small></div></div>
+    <nav id="sideNav">
+      <button data-page="home">⌂ <span>Home</span></button>
+      <button data-page="solve">◈ <span>Problem Solver</span></button>
+      <button data-page="plan">▦ <span>Study Planner</span></button>
+      <button data-page="progress">◉ <span>Progress</span></button>
+      <button data-page="career">◆ <span>Career & Skills</span></button>
+      <button data-page="exam">⏱ <span>Exam Mode</span></button>
+      <button data-page="careerhub">↗ <span>Opportunities</span></button>
+      <button data-page="resume">▤ <span>Resume Builder</span></button>
+      <button data-page="communication">◌ <span>Communication</span></button>
+      <button data-page="community">☷ <span>Community</span></button>
+      <button data-page="expenses">₹ <span>Expenses</span></button>
+      <button data-page="notifications">♢ <span>Notifications</span></button>
+      <button data-page="profile">⚙ <span>Profile</span></button>
+    </nav>
+    <button id="themeBtn" class="theme-btn">☾ <span>Dark mode</span></button>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button id="menuBtn" class="icon-btn">☰</button>
+      <div class="top-title"><span id="pageKicker">Student dashboard</span><h2 id="pageTitle">Home</h2></div>
+      <div class="top-actions"><button class="icon-btn" onclick="showPage('notifications')">♢<i id="notifDot"></i></button><div id="avatar" class="avatar">S</div></div>
+    </header>
+
+    <section id="pages">
+      <div id="home" class="page active">
+        <div class="hero card glow">
+          <div class="hero-copy">
+            <span class="eyebrow">AI-READY STUDENT SUPPORT</span>
+            <h1>Your Problem.<br><span>Your Plan. Your Progress.</span></h1>
+            <p>Whatever you're struggling with as a student, start here.</p>
+            <div class="problem-input">
+              <textarea id="homeProblem" rows="2" placeholder="Tell me what's troubling you…&#10;“I have an exam next week and don't know where to start.”"></textarea>
+              <button class="primary" onclick="solveFromHome()">Solve My Problem →</button>
+            </div>
+            <button class="ghost" onclick="showPage('tools')">Explore Student Tools</button>
+          </div>
+          <div class="orbital"><div class="orbit o1"></div><div class="orbit o2"></div><div class="core">S<span>360</span></div><div class="hud-chip c1">PLAN</div><div class="hud-chip c2">FOCUS</div><div class="hud-chip c3">PROGRESS</div></div>
+        </div>
+
+        <div class="section-head"><div><span class="eyebrow">QUICK START</span><h3>Start with what you need</h3></div></div>
+        <div class="category-grid">
+          <button onclick="quickSolve('Academic')">📚<b>Study</b><small>Understand subjects</small></button>
+          <button onclick="quickSolve('Career')">💼<b>Career</b><small>Choose your direction</small></button>
+          <button onclick="quickSolve('Skills')">💻<b>Skills</b><small>Find your skill gaps</small></button>
+          <button onclick="quickSolve('Time Management')">⏰<b>Time</b><small>Plan your day</small></button>
+          <button onclick="quickSolve('Financial')">💰<b>Money</b><small>Track spending</small></button>
+          <button onclick="quickSolve('Communication')">🗣️<b>Communication</b><small>Practice confidently</small></button>
+          <button onclick="quickSolve('Academic')">📝<b>Assignments</b><small>Break work into steps</small></button>
+          <button onclick="quickSolve('Goals')">🎯<b>Goals</b><small>Move forward</small></button>
+        </div>
+
+        <div class="section-head"><div><span class="eyebrow">TODAY</span><h3>Good <span id="greeting">Morning</span>, <span id="homeName">Student</span> 👋</h3></div><button class="ghost" onclick="showPage('profile')">Edit profile</button></div>
+        <div class="dashboard-grid">
+          <div class="card focus-card"><div class="card-title"><span>🎯 Today's focus</span><em id="streak">🔥 0 day streak</em></div><h3 id="todayFocus">Set up your profile to get a focus.</h3><p id="todayReason">Student360 will use your goals, tasks and deadlines to recommend the next best action.</p><button class="primary small" onclick="whatNow()">⚡ What should I do now?</button></div>
+          <div class="card mini-stat"><span>📚 Study</span><strong id="homeStudy">0%</strong><div class="bar"><i id="studyBar"></i></div><small>Tasks completed</small></div>
+          <div class="card mini-stat"><span>💻 Skills</span><strong id="homeSkill">0%</strong><div class="bar"><i id="skillBar"></i></div><small>Roadmap progress</small></div>
+          <div class="card mini-stat"><span>💼 Career</span><strong id="homeCareer">0%</strong><div class="bar"><i id="careerBar"></i></div><small>Career actions</small></div>
+        </div>
+      </div>
+
+      <div id="solve" class="page">
+        <div class="page-intro"><span class="eyebrow">CORE EXPERIENCE</span><h1>Problem Solver</h1><p>Tell Student360 what's happening. Get a practical next-step plan.</p></div>
+        <div class="card solver-box"><textarea id="problemText" rows="5" placeholder="Example: I don't understand Python and my exam is in 5 days."></textarea><div class="form-actions"><button class="primary" onclick="createPlan()">Create My Plan ✦</button><button class="ghost" onclick="useExample()">Use example</button></div></div>
+        <div id="solution" class="solution hidden"></div>
+      </div>
+
+      <div id="plan" class="page">
+        <div class="page-intro"><span class="eyebrow">ORGANIZE</span><h1>Study Planner</h1><p>Turn deadlines into small actions you can actually finish.</p></div>
+        <div class="two-col"><div class="card"><h3>Add a task</h3><form id="taskForm"><label>Task<input id="taskName" required placeholder="e.g. Revise Python exceptions"></label><div class="form-row"><label>Deadline<input id="taskDate" type="date" required></label><label>Priority<select id="taskPriority"><option>Normal</option><option>High</option><option>Low</option></select></label></div><button class="primary" type="submit">Add task</button></form></div><div class="card"><div class="card-title"><h3>Your tasks</h3><span id="taskCount">0 tasks</span></div><div id="taskList" class="task-list"></div></div></div>
+      </div>
+
+      <div id="progress" class="page">
+        <div class="page-intro"><span class="eyebrow">YOUR MOMENTUM</span><h1>Progress</h1><p>Small wins compound. See what is moving forward.</p></div>
+        <div class="progress-grid">
+          <div class="ring-card card"><div class="ring" id="ringStudy"><b>0%</b></div><h3>Study</h3></div>
+          <div class="ring-card card"><div class="ring" id="ringSkill"><b>0%</b></div><h3>Skills</h3></div>
+          <div class="ring-card card"><div class="ring" id="ringCareer"><b>0%</b></div><h3>Career</h3></div>
+          <div class="ring-card card"><div class="ring" id="ringComm"><b>0%</b></div><h3>Communication</h3></div>
+        </div>
+        <div class="card"><div class="card-title"><h3>Momentum</h3><span id="momentumText">Start your first task today.</span></div><div class="big-progress"><i id="overallBar"></i></div></div>
+      </div>
+
+      <div id="career" class="page">
+        <div class="page-intro"><span class="eyebrow">DIRECTION</span><h1>Skill Gap Finder</h1><p>Choose a target. Student360 maps the path from current skills to job-ready projects.</p></div>
+        <div class="card"><label>Target career<select id="careerSelect" onchange="renderCareer()"><option>Software Developer</option><option>Web Developer</option><option>Data Analyst</option><option>Cybersecurity</option><option>Cloud Engineer</option><option>UI/UX Designer</option><option>Digital Marketer</option><option>Government Jobs</option></select></label><div id="careerRoadmap"></div></div>
+      </div>
+
+      <div id="exam" class="page">
+        <div class="page-intro"><span class="eyebrow">EMERGENCY MODE</span><h1>Exam Mode</h1><p>When time is short, focus on what matters most.</p></div>
+        <div class="two-col"><div class="card"><form id="examForm"><label>Subject<input id="examSubject" required placeholder="Python"></label><label>Exam date<input id="examDate" type="date" required></label><label>Available hours/day<input id="examHours" type="number" min="1" max="16" value="3"></label><label>Topics<textarea id="examTopics" required rows="4" placeholder="Exceptions, OOP, files, modules"></textarea></label><button class="primary">Build revision plan</button></form></div><div id="examResult" class="card empty-state">Enter your exam details to generate a focused revision plan.</div></div>
+      </div>
+
+      <div id="careerhub" class="page">
+        <div class="page-intro"><span class="eyebrow">DEMO DIRECTORY</span><h1>Opportunities</h1><p>Real-product-ready UI with sample data. Verify details before applying.</p></div>
+        <div class="filters"><select id="oppType" onchange="renderOpps()"><option>All</option><option>Internship</option><option>Scholarship</option><option>Competition</option><option>Course</option><option>Certification</option></select><select id="oppMode" onchange="renderOpps()"><option>All</option><option>Online</option><option>Offline</option></select></div><div id="opps" class="opp-grid"></div>
+      </div>
+
+      <div id="resume" class="page">
+        <div class="page-intro"><span class="eyebrow">BUILD YOUR STORY</span><h1>Resume Builder</h1><p>Fill the essentials and generate a clean preview. Use your browser's Print → Save as PDF.</p></div>
+        <div class="two-col"><form id="resumeForm" class="card"><label>Name<input id="rName" placeholder="Your name"></label><label>Contact<input id="rContact" placeholder="email • phone • LinkedIn"></label><label>Education<textarea id="rEdu" rows="2"></textarea></label><label>Skills<textarea id="rSkills" rows="2" placeholder="Python, Java, SQL"></textarea></label><label>Projects<textarea id="rProjects" rows="3"></textarea></label><label>Certificates<textarea id="rCerts" rows="2"></textarea></label><label>Experience<textarea id="rExp" rows="2"></textarea></label><label>Achievements<textarea id="rAch" rows="2"></textarea></label><button type="button" class="primary" onclick="generateResume()">Generate preview</button></form><div id="resumePreview" class="resume-paper"><div class="empty-state">Your professional resume preview will appear here.</div></div></div>
+      </div>
+
+      <div id="communication" class="page">
+        <div class="page-intro"><span class="eyebrow">CONFIDENCE LAB</span><h1>Communication Practice</h1><p>Practice one small communication skill every day.</p></div>
+        <div class="comm-grid"><div class="card"><span class="eyebrow">WORD OF THE DAY</span><h2 id="word">Articulate</h2><p>Express an idea clearly and effectively.</p><button class="ghost" onclick="newWord()">Next word</button></div><div class="card"><span class="eyebrow">SPEAKING CHALLENGE</span><h2 id="challenge">Introduce yourself in 60 seconds.</h2><p id="speechStatus">Browser speech recognition may work on supported devices.</p><button class="primary" onclick="toggleSpeech()">🎙 Start speaking</button></div><div class="card"><span class="eyebrow">INTERVIEW</span><h2 id="question">Tell me about yourself.</h2><button class="ghost" onclick="newQuestion()">New question</button></div></div>
+      </div>
+
+      <div id="community" class="page">
+        <div class="page-intro"><span class="eyebrow">PEER SUPPORT</span><h1>Student Community</h1><p>Ask anonymously. Help respectfully. Never share passwords, phone numbers or private documents.</p></div>
+        <div class="two-col"><div class="card"><form id="postForm"><label>Category<select id="postCat"><option>Study Help</option><option>Career</option><option>Programming</option><option>College Life</option><option>Internships</option><option>General Questions</option></select></label><label>Your question<textarea id="postText" required rows="4"></textarea></label><button class="primary">Post anonymously</button></form></div><div id="posts" class="post-list"></div></div>
+      </div>
+
+      <div id="expenses" class="page">
+        <div class="page-intro"><span class="eyebrow">MONEY AWARENESS</span><h1>Expense Tracker</h1><p>See where your student budget is going.</p></div>
+        <div class="two-col"><div class="card"><form id="expenseForm"><label>Amount (₹)<input id="expenseAmount" type="number" min="1" required></label><label>Category<select id="expenseCat"><option>Food</option><option>Travel</option><option>Books</option><option>College</option><option>Subscriptions</option><option>Other</option></select></label><button class="primary">Add expense</button></form><div class="budget-box"><span>Monthly budget</span><input id="budget" type="number" value="5000" onchange="saveBudget();renderExpenses()"><strong id="budgetRemain">₹5,000 remaining</strong></div></div><div class="card"><div class="expense-summary"><div><span>Today</span><b id="todaySpend">₹0</b></div><div><span>This month</span><b id="monthSpend">₹0</b></div></div><div id="expenseBars"></div></div></div>
+      </div>
+
+      <div id="notifications" class="page">
+        <div class="page-intro"><span class="eyebrow">STAY ON TRACK</span><h1>Notifications</h1><p>Deadlines and reminders from your Student360 activity.</p></div>
+        <div id="notifList" class="notification-list"></div>
+      </div>
+
+      <div id="profile" class="page">
+        <div class="page-intro"><span class="eyebrow">PERSONALIZE</span><h1>Student Profile</h1><p>Your profile stays on this device using localStorage.</p></div>
+        <form id="profileForm" class="card profile-form"><div class="form-row"><label>Name<input id="pName" required></label><label>Course<input id="pCourse" placeholder="BCA"></label></div><div class="form-row"><label>Semester<input id="pSemester" placeholder="3"></label><label>College<input id="pCollege"></label></div><div class="form-row"><label>Main goal<input id="pGoal" placeholder="Become a Python developer"></label><label>Target career<select id="pCareer"><option>Software Developer</option><option>Web Developer</option><option>Data Analyst</option><option>Cybersecurity</option><option>Cloud Engineer</option><option>UI/UX Designer</option><option>Digital Marketer</option><option>Government Jobs</option></select></label></div><label>Current skills<textarea id="pSkills" rows="2" placeholder="Python basics, HTML"></textarea></label><label>Skills I want to learn<textarea id="pLearn" rows="2" placeholder="SQL, Git, APIs"></textarea></label><div class="form-row"><label>Study time/day<input id="pHours" type="number" min="1" max="16" value="2"></label><label>Learning style<select id="pStyle"><option>Visual</option><option>Hands-on</option><option>Reading</option><option>Mixed</option></select></label></div><button class="primary">Save profile</button></form>
+      </div>
+
+      <div id="tools" class="page">
+        <div class="page-intro"><span class="eyebrow">STUDENT TOOLKIT</span><h1>Everything in one place</h1><p>Pick a tool and keep moving.</p></div>
+        <div class="tool-grid"><button onclick="showPage('exam')">⏱<b>Exam Mode</b><small>Build a revision sprint</small></button><button onclick="showPage('career')">◆<b>Skill Gap Finder</b><small>Map your career roadmap</small></button><button onclick="showPage('resume')">▤<b>Resume Builder</b><small>Create your first draft</small></button><button onclick="showPage('communication')">◌<b>Communication</b><small>Practice speaking</small></button><button onclick="showPage('expenses')">₹<b>Expense Tracker</b><small>Watch your budget</small></button><button onclick="showPage('community')">☷<b>Community</b><small>Ask fellow students</small></button></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<button id="whatNowBtn" class="what-now" onclick="whatNow()">⚡ <span>WHAT SHOULD I DO NOW?</span></button>
+<div id="modal" class="modal"><div class="modal-card"><button class="modal-close" onclick="closeModal()">×</button><span class="eyebrow">NEXT BEST ACTION</span><h2 id="modalTitle">Your next move</h2><p id="modalText"></p><div id="modalSteps"></div><button class="primary" onclick="closeModal()">Let's do it</button></div></div>
+<div id="mobileNav" class="mobile-nav"><button data-page="home">⌂<small>Home</small></button><button data-page="solve">◈<small>Solve</small></button><button data-page="plan">▦<small>Plan</small></button><button data-page="progress">◉<small>Progress</small></button><button data-page="profile">👤<small>Profile</small></button></div>
+<script src="app.js"></script>
+</body>
+</html>
